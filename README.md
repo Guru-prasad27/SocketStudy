@@ -118,25 +118,11 @@ server_thread.start()
 client_thread.start()
 
 server_thread.join()
-client_thread.join()```
+client_thread.join()
+```
 ## Output:
-```
-Server waiting...
-Connected by: ('127.0.0.1', 53978)
-Enter message from client: Hi
-Client says: Hi
-Server says: 👋 Hey there! Great to connect with you.
-Enter message from client: sad
-Client says: sad
-Server says: Stay strong! Better days are coming.
-Enter message from client: tired
-Client says: tired
-Server says: Take a short break, you deserve it!
-Enter message from client: exam
-Client says: exam
-Server says: Believe in yourself—you’ve prepared well!
-Enter message from client: 
-```
+<img width="592" height="342" alt="image" src="https://github.com/user-attachments/assets/e602f611-d6f5-4b7e-a74e-57f25add04d7" />
+
 
 ## Result:
 Thus the study of Socket Programming Completed Successfully
