@@ -1,7 +1,7 @@
 # Ex.No:1a  			Study of Socket Programming
 
 ## Aim: 
-To perform a study on Socket Programming
+To implement client server model using Socket Programming
 ## Introduction:
 
  	Socket programming is a crucial aspect of network communication, allowing for data exchange between computers over a network. It forms the backbone of various networked applications, enabling communication between clients and servers. This study explores the fundamental concepts of socket programming, its use cases, and provides a practical example to demonstrate its implementation.
@@ -53,6 +53,56 @@ Socket programming finds applications in various domains, including web developm
 4.	Networked Games: Online multiplayer games rely on socket programming to facilitate communication between game clients and servers.
 5.	RPC mechanisms: which allow processes to execute code on a remote server, often use socket programming for communication.
 
+## Program:
+import socket
+import threading
+import time 
+
+def server():
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(("127.0.0.1", 5000))
+    s.listen(1)
+    print("Server waiting...")
+
+    conn, addr = s.accept()
+    print("Connected by:", addr)
+
+    data = conn.recv(1024)
+    print("Client says:", data.decode())
+
+    # Take input from server user
+    msg = input("Enter message from server: ")
+    conn.send(msg.encode())
+
+    conn.close()
+    s.close()
+
+def client():
+    time.sleep(1)  # wait for server to start
+
+    c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    c.connect(("127.0.0.1", 5000))
+
+    # Take input from client user
+    msg = input("Enter message from client: ")
+    c.send(msg.encode())
+
+    response = c.recv(1024)
+    print("Server says:", response.decode())
+
+    c.close()
+
+server_thread = threading.Thread(target=server)
+client_thread = threading.Thread(target=client)
+
+server_thread.start()
+client_thread.start()
+
+server_thread.join()
+client_thread.join()
+
+## Output:
+<img width="611" height="147" alt="image" src="https://github.com/user-attachments/assets/fba0a9bf-faf7-4e7d-9582-bec68c0e60a1" />
 
 ## Result:
 Thus the study of Socket Programming Completed Successfully
