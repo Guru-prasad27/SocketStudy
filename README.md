@@ -68,28 +68,46 @@ def server():
     conn, addr = s.accept()
     print("Connected by:", addr)
 
-    data = conn.recv(1024)
-    print("Client says:", data.decode())
+    while True:
+        data = conn.recv(1024)
+        msg = data.decode()
+        print("Client says:", msg)
 
-    # Take input from server user
-    msg = input("Enter message from server: ")
-    conn.send(msg.encode())
+        if msg.lower() == "exit":
+            break
+
+        # Smart reply logic
+        msg_lower = msg.lower()
+        if "hello" in msg_lower or "hi" in msg_lower:
+            reply = "👋 Hey there! Great to connect with you."
+        elif "sad" in msg_lower:
+            reply = "Stay strong! Better days are coming."
+        elif "tired" in msg_lower:
+            reply = "Take a short break, you deserve it!"
+        elif "exam" in msg_lower:
+            reply = "Believe in yourself—you’ve prepared well!"
+        else:
+            reply = "Hmm, I didn’t quite get that. Could you explain a bit more?"
+        conn.send(reply.encode())
 
     conn.close()
     s.close()
 
 def client():
-    time.sleep(1)  # wait for server to start
+    time.sleep(1)
 
     c = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     c.connect(("127.0.0.1", 5000))
 
-    # Take input from client user
-    msg = input("Enter message from client: ")
-    c.send(msg.encode())
+    while True:
+        msg = input("Enter message from client: ")
+        c.send(msg.encode())
 
-    response = c.recv(1024)
-    print("Server says:", response.decode())
+        if msg.lower() == "exit":
+            break
+
+        response = c.recv(1024)
+        print("Server says:", response.decode())
 
     c.close()
 
@@ -100,10 +118,25 @@ server_thread.start()
 client_thread.start()
 
 server_thread.join()
-client_thread.join()
-```
+client_thread.join()```
 ## Output:
-<img width="611" height="147" alt="image" src="https://github.com/user-attachments/assets/fba0a9bf-faf7-4e7d-9582-bec68c0e60a1" />
+```
+Server waiting...
+Connected by: ('127.0.0.1', 53978)
+Enter message from client: Hi
+Client says: Hi
+Server says: 👋 Hey there! Great to connect with you.
+Enter message from client: sad
+Client says: sad
+Server says: Stay strong! Better days are coming.
+Enter message from client: tired
+Client says: tired
+Server says: Take a short break, you deserve it!
+Enter message from client: exam
+Client says: exam
+Server says: Believe in yourself—you’ve prepared well!
+Enter message from client: 
+```
 
 ## Result:
 Thus the study of Socket Programming Completed Successfully
